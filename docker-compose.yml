@@ -1,0 +1,9 @@
+services:
+  java-lab:
+    build: .
+    container_name: java-lab
+    volumes:
+      - ./src:/lab/src
+      - ./bin:/lab/bin
+    working_dir: /lab
+    command: tail -f /dev/null
