@@ -1,3 +1,5 @@
+package ru.mitrakov.fraction;
+
 public class Fraction {
   protected final int numerator;
   protected final int denominator;
