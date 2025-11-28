@@ -1,13 +1,19 @@
 package ru.mitrakov.fraction;
 
-public class Fraction {
-  protected final int numerator;
-  protected final int denominator;
+public class Fraction extends Number implements Cloneable{
+  private final int numerator;
+  private final int denominator;
 
   public Fraction(int numerator, int denominator) {
     if (denominator == 0) {
       throw new IllegalArgumentException("The denominator cannot be equal to zero.");
     }
+
+    if (denominator < 0) {
+      numerator = -numerator;
+      denominator = -denominator;
+    }
+
     this.numerator = numerator;
     this.denominator = denominator;
   }
@@ -98,9 +104,46 @@ public class Fraction {
     }
     return a;
   }
-  
+
   @Override
   public String toString() {
     return numerator + "/" + denominator;
+  }
+
+  @Override
+  public int intValue() {
+    return numerator / denominator;
+  }
+
+  @Override
+  public long longValue() {
+    return (long) numerator / denominator;
+  }
+
+  @Override
+  public float floatValue() {
+    return (float) numerator / denominator;
+  }
+
+  @Override
+  public double doubleValue() {
+    return (double) numerator / denominator;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    return this.numerator == ((Fraction) obj).numerator
+      && this.denominator == ((Fraction) obj).denominator;
+  }
+
+  @Override
+  public Fraction clone() {
+    return new Fraction(numerator, denominator);
   }
 }
