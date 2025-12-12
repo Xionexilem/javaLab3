@@ -3,7 +3,6 @@ services:
     build: .
     container_name: java-lab
     volumes:
-      - ./scripts:/lab/scripts
       - ./src:/lab/src
       - ./bin:/lab/bin
     working_dir: /lab

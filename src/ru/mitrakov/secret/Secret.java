@@ -31,8 +31,8 @@ public class Secret {
     int X = random.nextInt(N);
     StringBuilder result = new StringBuilder(text);
     for (int i = 0; i < X; i++) {
-      char symbol = (char) random.nextInt(65535);
-      int position = random.nextInt(result.length());
+      char symbol = (char) (random.nextInt(1100) + 33);
+      int position = random.nextInt(result.length() + 1);
       result.insert(position, symbol);
     }
     return result.toString();
@@ -67,10 +67,16 @@ public class Secret {
   }
 
   private Secret getSecretN (int N) {
-    if ((numberQueue() - 1) <= N && N <= foundOutAfter()) {
-      Secret secret = this;
+    Secret secret = this;
+    if (-numberQueue() <= N && N < 0) {
+      N = Math.abs(N);
       for (int i = 0; i < N; i++) {
         secret = secret.prev;
+      }
+      return secret;
+    } else if (0 <= N && N <= foundOutAfter()) {
+      for (int i = 0; i < N; i++) {
+        secret = secret.next;
       }
       return secret;
     }

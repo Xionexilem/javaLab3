@@ -1,6 +1,8 @@
 package ru.mitrakov.main;
 
 import ru.mitrakov.fraction.Fraction;
+import ru.mitrakov.name.Name;
+import ru.mitrakov.secret.Secret;
 
 import java.util.Scanner;
 
@@ -60,6 +62,30 @@ public class Main {
             System.out.println("Результат: " + f);
             break;
           }
+          case "1-7": {
+            System.out.println("Непустые имена.");
+            obj.pleaseEnter("имя");
+            String name = scanner.next();
+            obj.pleaseEnter("фамилию");
+            String surname = scanner.next();
+            obj.pleaseEnter("отчество");
+            String patronymic = scanner.next();
+            Name person = new Name(name, surname, patronymic);
+            System.out.println("Результат: " + person);
+          }
+          case "2-2": {
+            System.out.println("Секреты");
+            Secret secret = new Secret("Иван", "Мой дом на 10 улице");
+            Secret secret1 = new Secret(secret, "Даша");
+            Secret secret2 = new Secret(secret1, "Максим");
+            Secret secret3 = new Secret(secret2, "Алексей");
+            System.out.println(secret2.getOwner());
+            System.out.println(secret2.getText());
+            System.out.println(secret2.foundOutAfter());
+            System.out.println(secret2.numberQueue());
+            System.out.println(secret2.getNamePersonN(1));
+            System.out.println(secret2.getDiff(1));
+          }
           default: {
             System.out.println("Неизвестное задание");
             obj.visualBottomTab();
@@ -69,6 +95,7 @@ public class Main {
 
         obj.visualBottomTab();
       } catch (Exception e) {
+        System.out.println(e);
         obj.invalidValue();
         scanner.next();
       }

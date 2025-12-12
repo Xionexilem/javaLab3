@@ -1,9 +1,8 @@
 compile:
-	docker exec -it java-lab chmod +x /lab/scripts/compile.sh
-	docker exec -it java-lab /lab/scripts/compile.sh
+	docker exec -it java-lab javac -d /lab/bin $(shell docker exec -it java-lab find /lab/src -name "*.java")
 
 run:
-	docker exec -it java-lab java -cp /lab/bin Main
+	docker exec -it java-lab java -cp /lab/bin ru.mitrakov.main.Main
 
 clean:
-	rm -rf ./bin/*
+	sudo rm -rf /lab/bin/*
