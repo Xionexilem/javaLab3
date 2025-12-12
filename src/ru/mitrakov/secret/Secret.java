@@ -12,6 +12,7 @@ public class Secret {
     this.text = text;
     this.owner = owner;
     this.prev = null;
+    System.out.println("Секрет: " + text);
   }
 
   public Secret(Secret secret, String owner) {
@@ -27,18 +28,25 @@ public class Secret {
   private static String litterSecret(String text) {
     Random random = new Random();
 
-    int N = (int) (text.length() * 0.1);
-    int X = random.nextInt(N);
+    int N = Math.max(1, (int) (text.length() * 0.1));
+    int X = random.nextInt(N) + 1;
     StringBuilder result = new StringBuilder(text);
     for (int i = 0; i < X; i++) {
-      char symbol = (char) (random.nextInt(1100) + 33);
+      char symbol = generatePrintableChar(random);
       int position = random.nextInt(result.length() + 1);
       result.insert(position, symbol);
     }
     return result.toString();
   }
 
-  public String getText() {
+  private static char generatePrintableChar(Random random) {
+    // Диапазоны печатных символов:
+    // Латинские буквы, кирилица, цифры, базовая пунктуация
+    String printableChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮйцукенгшщзхъфывапролджэячсмитьбю0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
+    return printableChars.charAt(random.nextInt(printableChars.length()));
+}
+
+  private String getText() {
     return this.text;
   }
 

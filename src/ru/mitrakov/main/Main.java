@@ -3,6 +3,7 @@ package ru.mitrakov.main;
 import ru.mitrakov.fraction.Fraction;
 import ru.mitrakov.name.Name;
 import ru.mitrakov.secret.Secret;
+import ru.mitrakov.summator.SumNumbers;
 
 import java.util.Scanner;
 
@@ -72,19 +73,135 @@ public class Main {
             String patronymic = scanner.next();
             Name person = new Name(name, surname, patronymic);
             System.out.println("Результат: " + person);
+            break;
           }
           case "2-2": {
-            System.out.println("Секреты");
-            Secret secret = new Secret("Иван", "Мой дом на 10 улице");
-            Secret secret1 = new Secret(secret, "Даша");
-            Secret secret2 = new Secret(secret1, "Максим");
-            Secret secret3 = new Secret(secret2, "Алексей");
-            System.out.println(secret2.getOwner());
-            System.out.println(secret2.getText());
-            System.out.println(secret2.foundOutAfter());
-            System.out.println(secret2.numberQueue());
-            System.out.println(secret2.getNamePersonN(1));
-            System.out.println(secret2.getDiff(1));
+            Secret currentSecret = null;
+            boolean flag = true;
+            while (flag) {
+              System.out.println("\n--- Меню управления секретами ---");
+              System.out.println("1. Создать первый секрет");
+              System.out.println("2. Передать секрет");
+              System.out.println("3. Показать информацию о текущем секрете");
+              System.out.println("4. Получить владельца секрета по номеру");
+              System.out.println("5. Вычислить разницу длин текста");
+              System.out.println("0. Выйти из задания");
+              System.out.print("Выберите действие: ");
+
+              int choice = scanner.nextInt();
+              scanner.nextLine();
+
+              try {
+                switch (choice) {
+                  case 0:
+                    flag = false;
+                    break;
+
+                  case 1:
+                    System.out.print("Введите имя владельца секрета: ");
+                    String owner = scanner.nextLine();
+                    System.out.print("Введите текст секрета: ");
+                    String text = scanner.nextLine();
+                    currentSecret = new Secret(owner, text);
+                    System.out.println("Секрет создан!");
+                    break;
+
+                  case 2:
+                    if (currentSecret == null) {
+                      System.out.println("Сначала создайте первый секрет!");
+                      continue;
+                    }
+                    System.out.print("Введите имя нового владельца секрета: ");
+                    String newOwner = scanner.nextLine();
+                    currentSecret = new Secret(currentSecret, newOwner);
+                    break;
+
+                  case 3:
+                    if (currentSecret == null) {
+                      System.out.println("Секрет не создан!");
+                      continue;
+                    }
+                    System.out.println("Текущий секрет: " + currentSecret);
+                    System.out.println("Владелец: " + currentSecret.getOwner());
+                    System.out.println("Номер в цепочке: " + currentSecret.numberQueue());
+                    System.out.println("Передан дальше: " + currentSecret.foundOutAfter() + " раз");
+                    break;
+
+                  case 4:
+                    if (currentSecret == null) {
+                      System.out.println("Секрет не создан!");
+                      continue;
+                    }
+                    System.out.print("Введите номер секрета (положительный или отрицательный): ");
+                    int secretNum = scanner.nextInt();
+                    System.out.println("Владелец секрета: " + currentSecret.getNamePersonN(secretNum));
+                    break;
+
+                  case 5:
+                    if (currentSecret == null) {
+                      System.out.println("Секрет не создан!");
+                      continue;
+                    }
+                    System.out.print("Введите номер секрета для сравнения длины: ");
+                    int diffNum = scanner.nextInt();
+                    System.out.println("Разница в длине текста: " +
+                        currentSecret.getDiff(diffNum) + " символов");
+                    break;
+
+                  default:
+                    System.out.println("Неправильный выбор");
+                }
+              } catch (Exception e) {
+                obj.invalidValue();
+                scanner.next();
+              }
+            }
+          }
+          case "5-1": {
+            System.out.println("Сложение.");
+
+            SumNumbers summator = new SumNumbers();
+
+            System.out.println("Пример 1: 2 + 3/5 + 2.3");
+            Fraction fraction = new Fraction(3, 5);
+            double result = summator.sum(2, fraction, 2.3);
+            System.out.println("Результат: " + result);
+
+            System.out.println("Пример 2: 3.6 + 49/12 + 3 + 3/2");
+            fraction = new Fraction(49, 12);
+            Fraction fraction2 = new Fraction(3, 2);
+            result = summator.sum(3.6, fraction, 3, fraction2);
+            System.out.println("Результат: " + result);
+
+            System.out.println("Пример 3: 1/3 + 1");
+            fraction = new Fraction(1, 3);
+            result = summator.sum(fraction, 1);
+            System.out.println("Результат: " + result);
+            break;
+          }
+          case "6-1": {
+            System.out.println("Сравнение дробей.");
+            System.out.println("Первая дробь");
+            obj.pleaseEnter("числитель");
+            int num1 = scanner.nextInt();
+            obj.pleaseEnter("знаменатель");
+            int den1 = scanner.nextInt();
+            Fraction fraction1 = new Fraction(num1, den1);
+            
+            System.out.println("Вторая дробь");
+            obj.pleaseEnter("числитель");
+            int num2 = scanner.nextInt();
+            obj.pleaseEnter("знаменатель");
+            int den2 = scanner.nextInt();
+            Fraction fraction2 = new Fraction(num2, den2);
+
+            boolean equals = fraction2.equals(fraction1);
+            if (equals) {
+              System.out.println("Дроби равны.");
+            } else {
+              System.out.println("Дроби не равны");
+            }
+            break;
           }
           default: {
             System.out.println("Неизвестное задание");
@@ -95,7 +212,6 @@ public class Main {
 
         obj.visualBottomTab();
       } catch (Exception e) {
-        System.out.println(e);
         obj.invalidValue();
         scanner.next();
       }

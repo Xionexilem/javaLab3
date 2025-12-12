@@ -1,9 +1,9 @@
 package ru.mitrakov.name;
 
 public class Name {
-  protected String name;
-  protected String surname;
-  protected String patronymic;
+  private final String name;
+  private final String surname;
+  private final String patronymic;
 
   public Name(String name) {
     this(name, null, null);
@@ -23,7 +23,7 @@ public class Name {
     this.patronymic = patronymic;
   }
 
-  protected String changeString(String string, Boolean space) {
+  private String changeString(String string, Boolean space) {
     StringBuilder result = new StringBuilder();
     if (string != null && !string.isEmpty()) {
       result.append(string);
